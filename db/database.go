@@ -28,4 +28,5 @@ func Connect() {
 		log.Fatal("Cannot connect to DB: ", err)
 	}
 	fmt.Println("Successfully connected to the database!")
+	fmt.Println("Success")
 }
