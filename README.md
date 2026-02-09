@@ -202,19 +202,3 @@ You can import these details into Postman to test the service.
 ├── Dockerfile
 └── main.go           # Entry point & Routing
 ```
-
-## ⚡ Performance & Optimization Results
-
-We optimized the service using **Profiling-Driven Development**.
-
-| Metric | Before Optimization | After Optimization | Improvement |
-| :--- | :--- | :--- | :--- |
-| **Technique** | Default SQL Config | **Connection Pooling** (Max 25) | - |
-| **Avg Latency** | ~80ms - 500ms (High Jitter) | **~3ms - 6ms** (Stable) | **~98% Reduction** |
-| **Throughput** | CPU Saturated @ 100 req/s | CPU Idle @ 100 req/s | **High Efficiency** |
-| **Bottleneck** | Database Handshake (`syscall.Connect`) | Network/Application Logic | Removed |
-
-### Strategy Used
-1.  **Identify**: Used `go tool pprof` to visualize CPU usage. Found 50%+ time spent in `database/sql` locking.
-2.  **Fix**: Implemented `DB.SetMaxOpenConns(25)` to reuse connections.
-3.  **Verify**: Re-ran Postman benchmarks to confirm <10ms response times.
