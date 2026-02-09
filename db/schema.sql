@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS cars (
+    id SERIAL PRIMARY KEY,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    color VARCHAR(20) NOT NULL,
+    mileage INT NOT NULL
+);

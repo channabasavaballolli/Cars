@@ -1,20 +1,16 @@
 package utils
 
-import "errors"
+import (
+	"car-service/models"
+	"errors"
+)
 
-func IsPriceValid(price float64) bool {
-	if price <= 0 {
-		return false
+func ValidateCar(car models.Car) error {
+	if car.Price <= 0 {
+		return errors.New("price must be greater than 0")
 	}
-	return true
-}
-
-func ValidateCar(price float64, year int) error {
-	if !IsPriceValid(price) {
-		return errors.New("price must be greater than zero")
-	}
-	if year < 1886 { // First car in 1886
-		return errors.New("year cannot be before 1886")
+	if car.Year <= 1886 {
+		return errors.New("year must be greater than 1886")
 	}
 	return nil
 }

@@ -1,0 +1,371 @@
+File: main
+Build ID: 987c2a02c47d9fbd7685eb9a0f711410b42ed45c
+Type: cpu
+Time: 2026-02-06 12:21:32 IST
+Duration: 30s, Total samples = 880ms ( 2.93%)
+Showing nodes accounting for 880ms, 100% of 880ms total
+      flat  flat%   sum%        cum   cum%
+     160ms 18.18% 18.18%      160ms 18.18%  internal/runtime/syscall.Syscall6
+      60ms  6.82% 25.00%       60ms  6.82%  runtime.futex
+      40ms  4.55% 29.55%       40ms  4.55%  runtime.memclrNoHeapPointers
+      30ms  3.41% 32.95%       30ms  3.41%  runtime.(*stkframe).getStackMap
+      30ms  3.41% 36.36%       50ms  5.68%  runtime.(*unwinder).resolveInternal
+      30ms  3.41% 39.77%       30ms  3.41%  runtime.asyncPreempt
+      20ms  2.27% 42.05%       20ms  2.27%  runtime.(*inlineUnwinder).srcFunc (inline)
+      20ms  2.27% 44.32%       20ms  2.27%  runtime.findfunc
+      20ms  2.27% 46.59%       20ms  2.27%  runtime.funcMaxSPDelta
+      20ms  2.27% 48.86%       20ms  2.27%  runtime.memmove
+      20ms  2.27% 51.14%       20ms  2.27%  runtime.nextFreeFast (inline)
+      10ms  1.14% 52.27%       10ms  1.14%  aeshashbody
+      10ms  1.14% 53.41%       10ms  1.14%  database/sql.(*DB).conn
+      10ms  1.14% 54.55%       10ms  1.14%  database/sql.(*Rows).close
+      10ms  1.14% 55.68%       10ms  1.14%  encoding/json.appendIndent
+      10ms  1.14% 56.82%       10ms  1.14%  github.com/graphql-go/graphql.(*TypeInfo).Enter
+      10ms  1.14% 57.95%       10ms  1.14%  github.com/graphql-go/graphql.(*overlappingFieldsCanBeMergedRule).getFieldsAndFragmentNames
+      10ms  1.14% 59.09%       10ms  1.14%  github.com/graphql-go/graphql.NoUndefinedVariablesRule
+      10ms  1.14% 60.23%       50ms  5.68%  github.com/graphql-go/graphql.VisitUsingRules.VisitInParallel.func1
+      10ms  1.14% 61.36%       40ms  4.55%  github.com/graphql-go/graphql.VisitUsingRules.VisitInParallel.func2
+      10ms  1.14% 62.50%       40ms  4.55%  github.com/graphql-go/graphql.completeListValue
+      10ms  1.14% 63.64%      240ms 27.27%  github.com/graphql-go/graphql.resolveField
+      10ms  1.14% 64.77%       10ms  1.14%  github.com/lib/pq.decideColumnFormats
+      10ms  1.14% 65.91%       10ms  1.14%  internal/abi.(*Type).Kind (inline)
+      10ms  1.14% 67.05%       10ms  1.14%  internal/abi.(*Type).Size (inline)
+      10ms  1.14% 68.18%       10ms  1.14%  internal/abi.Name.ReadVarint (inline)
+      10ms  1.14% 69.32%       10ms  1.14%  internal/runtime/maps.(*Iter).Next
+      10ms  1.14% 70.45%       10ms  1.14%  net.(*OpError).Timeout
+      10ms  1.14% 71.59%       10ms  1.14%  os.(*fileStat).Size
+      10ms  1.14% 72.73%       10ms  1.14%  reflect.(*structType).Field
+      10ms  1.14% 73.86%       10ms  1.14%  reflect.Value.lenNonSlice
+      10ms  1.14% 75.00%       10ms  1.14%  reflect.unpackEface (inline)
+      10ms  1.14% 76.14%       10ms  1.14%  regexp/syntax.(*Regexp).MaxCap
+      10ms  1.14% 77.27%       20ms  2.27%  regexp/syntax.nextRune
+      10ms  1.14% 78.41%       10ms  1.14%  runtime.(*itabTableType).find
+      10ms  1.14% 79.55%       10ms  1.14%  runtime.(*lfstack).pop (inline)
+      10ms  1.14% 80.68%       10ms  1.14%  runtime.(*mspan).heapBitsSmallForAddr
+      10ms  1.14% 81.82%       10ms  1.14%  runtime.(*mspan).writeHeapBitsSmall
+      10ms  1.14% 82.95%       10ms  1.14%  runtime.(*randomEnum).next (inline)
+      10ms  1.14% 84.09%       10ms  1.14%  runtime.casgstatus
+      10ms  1.14% 85.23%       10ms  1.14%  runtime.cheaprand (inline)
+      10ms  1.14% 86.36%       10ms  1.14%  runtime.checkRunqsNoP
+      10ms  1.14% 87.50%       80ms  9.09%  runtime.findRunnable
+      10ms  1.14% 88.64%       10ms  1.14%  runtime.getGCMask (inline)
+      10ms  1.14% 89.77%       10ms  1.14%  runtime.mallocgcTiny
+      10ms  1.14% 90.91%       10ms  1.14%  runtime.newBucket
+      10ms  1.14% 92.05%       50ms  5.68%  runtime.newobject
+      10ms  1.14% 93.18%       20ms  2.27%  runtime.pcvalue
+      10ms  1.14% 94.32%       10ms  1.14%  runtime.runqsteal
+      10ms  1.14% 95.45%       30ms  3.41%  runtime.scanobject
+      10ms  1.14% 96.59%       10ms  1.14%  runtime.step
+      10ms  1.14% 97.73%       20ms  2.27%  runtime/pprof.(*profMap).lookup
+      10ms  1.14% 98.86%       10ms  1.14%  sync.runtime_notifyListWait
+      10ms  1.14%   100%       10ms  1.14%  time.nextStdChunk
+         0     0%   100%       10ms  1.14%  bufio.(*Reader).Peek
+         0     0%   100%       40ms  4.55%  bufio.(*Reader).Read
+         0     0%   100%       10ms  1.14%  bufio.(*Reader).fill
+         0     0%   100%       50ms  5.68%  bufio.(*Writer).Flush
+         0     0%   100%       10ms  1.14%  bufio.(*Writer).Write
+         0     0%   100%       10ms  1.14%  bufio.(*Writer).WriteString
+         0     0%   100%       10ms  1.14%  bytes.(*Buffer).Write
+         0     0%   100%       10ms  1.14%  bytes.(*Buffer).grow
+         0     0%   100%       10ms  1.14%  bytes.growSlice
+         0     0%   100%       70ms  7.95%  car-service/graph.init.func1
+         0     0%   100%       30ms  3.41%  car-service/graph.init.func2
+         0     0%   100%       10ms  1.14%  car-service/graph.init.func3
+         0     0%   100%       30ms  3.41%  car-service/graph.init.func4
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).Exec
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).ExecContext
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).ExecContext.func1
+         0     0%   100%       50ms  5.68%  database/sql.(*DB).Query
+         0     0%   100%       90ms 10.23%  database/sql.(*DB).QueryContext
+         0     0%   100%       90ms 10.23%  database/sql.(*DB).QueryContext.func1
+         0     0%   100%       40ms  4.55%  database/sql.(*DB).QueryRow
+         0     0%   100%       40ms  4.55%  database/sql.(*DB).QueryRowContext (inline)
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).exec
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).execDC
+         0     0%   100%       30ms  3.41%  database/sql.(*DB).execDC.func2
+         0     0%   100%       90ms 10.23%  database/sql.(*DB).query
+         0     0%   100%       80ms  9.09%  database/sql.(*DB).queryDC
+         0     0%   100%       80ms  9.09%  database/sql.(*DB).queryDC.func1
+         0     0%   100%      120ms 13.64%  database/sql.(*DB).retry
+         0     0%   100%       10ms  1.14%  database/sql.(*Rows).Close
+         0     0%   100%       20ms  2.27%  database/sql.(*Rows).Next
+         0     0%   100%       10ms  1.14%  database/sql.(*Rows).Next.func1
+         0     0%   100%       10ms  1.14%  database/sql.(*Rows).nextLocked
+         0     0%   100%       30ms  3.41%  database/sql.ctxDriverExec
+         0     0%   100%       80ms  9.09%  database/sql.ctxDriverQuery
+         0     0%   100%      120ms 13.64%  database/sql.withLock
+         0     0%   100%       10ms  1.14%  encoding/json.(*decodeState).literalStore
+         0     0%   100%       10ms  1.14%  encoding/json.(*decodeState).object
+         0     0%   100%       10ms  1.14%  encoding/json.(*decodeState).unmarshal
+         0     0%   100%       10ms  1.14%  encoding/json.(*decodeState).value
+         0     0%   100%       40ms  4.55%  encoding/json.(*encodeState).marshal
+         0     0%   100%       40ms  4.55%  encoding/json.(*encodeState).reflectValue
+         0     0%   100%       40ms  4.55%  encoding/json.Marshal
+         0     0%   100%       60ms  6.82%  encoding/json.MarshalIndent
+         0     0%   100%       10ms  1.14%  encoding/json.Unmarshal
+         0     0%   100%       30ms  3.41%  encoding/json.arrayEncoder.encode
+         0     0%   100%       10ms  1.14%  encoding/json.indirect
+         0     0%   100%       10ms  1.14%  encoding/json.intEncoder
+         0     0%   100%       40ms  4.55%  encoding/json.interfaceEncoder
+         0     0%   100%       40ms  4.55%  encoding/json.mapEncoder.encode
+         0     0%   100%       40ms  4.55%  encoding/json.ptrEncoder.encode
+         0     0%   100%       30ms  3.41%  encoding/json.sliceEncoder.encode
+         0     0%   100%       40ms  4.55%  encoding/json.structEncoder.encode
+         0     0%   100%       10ms  1.14%  fmt.(*pp).doPrintf
+         0     0%   100%       20ms  2.27%  fmt.Sprintf
+         0     0%   100%       10ms  1.14%  github.com/gorilla/mux.(*Route).Match
+         0     0%   100%       10ms  1.14%  github.com/gorilla/mux.(*Router).Match
+         0     0%   100%      300ms 34.09%  github.com/gorilla/mux.(*Router).ServeHTTP
+         0     0%   100%       10ms  1.14%  github.com/gorilla/mux.(*routeRegexp).Match
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.(*Scalar).ParseLiteral (inline)
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.(*Scalar).Serialize
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.(*ValidationContext).RecursiveVariableUsages
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.(*ValidationContext).VariableUsages
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.(*overlappingFieldsCanBeMergedRule).findConflictsWithinSelectionSet
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.ArgumentsOfCorrectTypeRule.func1
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql.DefaultResolveFn
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.DefaultResolveFn.func1
+         0     0%   100%      200ms 22.73%  github.com/graphql-go/graphql.Do
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.Execute
+         0     0%   100%      280ms 31.82%  github.com/graphql-go/graphql.Execute.func2
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.KnownArgumentNamesRule
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql.NewLocatedErrorWithPath (inline)
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.NoFragmentCyclesRule
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.NoUndefinedVariablesRule.func2
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.OverlappingFieldsCanBeMergedRule
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.OverlappingFieldsCanBeMergedRule.func1
+         0     0%   100%      170ms 19.32%  github.com/graphql-go/graphql.ValidateDocument
+         0     0%   100%      170ms 19.32%  github.com/graphql-go/graphql.VisitUsingRules
+         0     0%   100%       60ms  6.82%  github.com/graphql-go/graphql.VisitUsingRules.VisitWithTypeInfo.func3
+         0     0%   100%       40ms  4.55%  github.com/graphql-go/graphql.VisitUsingRules.VisitWithTypeInfo.func4
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.coerceString
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.completeLeafValue
+         0     0%   100%       40ms  4.55%  github.com/graphql-go/graphql.completeObjectValue
+         0     0%   100%       50ms  5.68%  github.com/graphql-go/graphql.completeValue
+         0     0%   100%       50ms  5.68%  github.com/graphql-go/graphql.completeValueCatchingError
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.dethunkListBreadthFirst.func1
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.dethunkMapBreadthFirst
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql.dethunkMapWithBreadthFirstTraversal
+         0     0%   100%      120ms 13.64%  github.com/graphql-go/graphql.executeFields
+         0     0%   100%      150ms 17.05%  github.com/graphql-go/graphql.executeFieldsSerially
+         0     0%   100%      270ms 30.68%  github.com/graphql-go/graphql.executeOperation
+         0     0%   100%      120ms 13.64%  github.com/graphql-go/graphql.executeSubFields
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql.handleFieldError
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.init.func2
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.isValidLiteralValue
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql.newLocatedError
+         0     0%   100%       20ms  2.27%  github.com/graphql-go/graphql.orderedFields
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql.resolveField.func1
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql/gqlerrors.NewErrorWithPath (inline)
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql/gqlerrors.newError
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/ast.NewDocument (inline)
+         0     0%   100%       30ms  3.41%  github.com/graphql-go/graphql/language/location.GetLocation
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/parser.Parse
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/parser.parseDocument
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/visitor.GetVisitFn
+         0     0%   100%      130ms 14.77%  github.com/graphql-go/graphql/language/visitor.Visit
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/visitor.getFieldValue
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/visitor.isNode
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/graphql/language/visitor.toSliceInterfaces
+         0     0%   100%      280ms 31.82%  github.com/graphql-go/handler.(*Handler).ContextHandler
+         0     0%   100%      280ms 31.82%  github.com/graphql-go/handler.(*Handler).ServeHTTP
+         0     0%   100%       10ms  1.14%  github.com/graphql-go/handler.NewRequestOptions
+         0     0%   100%       30ms  3.41%  github.com/lib/pq.(*conn).Exec
+         0     0%   100%       30ms  3.41%  github.com/lib/pq.(*conn).ExecContext
+         0     0%   100%       80ms  9.09%  github.com/lib/pq.(*conn).QueryContext
+         0     0%   100%       60ms  6.82%  github.com/lib/pq.(*conn).prepareTo
+         0     0%   100%       80ms  9.09%  github.com/lib/pq.(*conn).query
+         0     0%   100%       20ms  2.27%  github.com/lib/pq.(*conn).readParseResponse
+         0     0%   100%       40ms  4.55%  github.com/lib/pq.(*conn).recv1
+         0     0%   100%       40ms  4.55%  github.com/lib/pq.(*conn).recv1Buf
+         0     0%   100%       40ms  4.55%  github.com/lib/pq.(*conn).recvMessage
+         0     0%   100%       60ms  6.82%  github.com/lib/pq.(*conn).send
+         0     0%   100%       40ms  4.55%  github.com/lib/pq.(*conn).simpleQuery
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.(*rows).Next
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.(*stmt).Exec
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.(*stmt).ExecContext
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.(*stmt).exec
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.decode
+         0     0%   100%       10ms  1.14%  github.com/lib/pq.textDecode
+         0     0%   100%       10ms  1.14%  internal/abi.Name.Name
+         0     0%   100%       10ms  1.14%  internal/poll.(*FD).Close
+         0     0%   100%       50ms  5.68%  internal/poll.(*FD).Read
+         0     0%   100%      100ms 11.36%  internal/poll.(*FD).Write
+         0     0%   100%       10ms  1.14%  internal/poll.(*FD).decref
+         0     0%   100%       10ms  1.14%  internal/poll.(*FD).destroy
+         0     0%   100%       10ms  1.14%  internal/poll.(*SysFile).destroy (inline)
+         0     0%   100%      150ms 17.05%  internal/poll.ignoringEINTRIO (inline)
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.(*Map).getWithoutKeySmallFastStr
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.(*Map).growToSmall
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.(*table).grow
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.(*table).rehash
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.(*table).reset
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.NewEmptyMap (inline)
+         0     0%   100%       20ms  2.27%  internal/runtime/maps.newGroups (inline)
+         0     0%   100%       10ms  1.14%  internal/runtime/maps.newTable
+         0     0%   100%       20ms  2.27%  internal/runtime/maps.newarray
+         0     0%   100%       20ms  2.27%  internal/runtime/syscall.EpollWait
+         0     0%   100%       40ms  4.55%  io.ReadAtLeast
+         0     0%   100%       40ms  4.55%  io.ReadFull (inline)
+         0     0%   100%       10ms  1.14%  log.(*Logger).output
+         0     0%   100%       10ms  1.14%  log.Printf (inline)
+         0     0%   100%      290ms 32.95%  main.loggingMiddleware.func1
+         0     0%   100%       10ms  1.14%  net.(*conn).Close
+         0     0%   100%       50ms  5.68%  net.(*conn).Read
+         0     0%   100%       90ms 10.23%  net.(*conn).Write
+         0     0%   100%       10ms  1.14%  net.(*netFD).Close
+         0     0%   100%       50ms  5.68%  net.(*netFD).Read
+         0     0%   100%       90ms 10.23%  net.(*netFD).Write
+         0     0%   100%       30ms  3.41%  net/http.(*chunkWriter).Write
+         0     0%   100%       20ms  2.27%  net/http.(*chunkWriter).writeHeader
+         0     0%   100%       10ms  1.14%  net/http.(*conn).close
+         0     0%   100%      370ms 42.05%  net/http.(*conn).serve
+         0     0%   100%       10ms  1.14%  net/http.(*conn).serve.func1
+         0     0%   100%       10ms  1.14%  net/http.(*connReader).Read
+         0     0%   100%       10ms  1.14%  net/http.(*connReader).abortPendingRead
+         0     0%   100%       10ms  1.14%  net/http.(*connReader).backgroundRead
+         0     0%   100%       10ms  1.14%  net/http.(*response).Write
+         0     0%   100%       50ms  5.68%  net/http.(*response).finishRequest
+         0     0%   100%       10ms  1.14%  net/http.(*response).write
+         0     0%   100%      290ms 32.95%  net/http.HandlerFunc.ServeHTTP
+         0     0%   100%       30ms  3.41%  net/http.checkConnErrorWriter.Write
+         0     0%   100%      300ms 34.09%  net/http.serverHandler.ServeHTTP
+         0     0%   100%       10ms  1.14%  net/http.writeStatusLine
+         0     0%   100%       10ms  1.14%  os.(*File).Write
+         0     0%   100%       10ms  1.14%  os.(*File).write (inline)
+         0     0%   100%       20ms  2.27%  os.Open (inline)
+         0     0%   100%       20ms  2.27%  os.OpenFile
+         0     0%   100%       30ms  3.41%  os.ReadFile
+         0     0%   100%       20ms  2.27%  os.ignoringEINTR (inline)
+         0     0%   100%       20ms  2.27%  os.open
+         0     0%   100%       20ms  2.27%  os.openFileNolog
+         0     0%   100%       20ms  2.27%  os.openFileNolog.func1 (inline)
+         0     0%   100%       10ms  1.14%  os.statOrZero
+         0     0%   100%       10ms  1.14%  reflect.(*MapIter).Value
+         0     0%   100%       10ms  1.14%  reflect.(*rtype).Field
+         0     0%   100%       10ms  1.14%  reflect.(*rtype).Name
+         0     0%   100%       10ms  1.14%  reflect.(*rtype).String
+         0     0%   100%       20ms  2.27%  reflect.Value.Index
+         0     0%   100%       10ms  1.14%  reflect.Value.Len (inline)
+         0     0%   100%       10ms  1.14%  reflect.ValueOf (inline)
+         0     0%   100%       10ms  1.14%  reflect.copyVal
+         0     0%   100%       10ms  1.14%  reflect.unsafe_New
+         0     0%   100%       10ms  1.14%  regexp.(*Regexp).MatchString (inline)
+         0     0%   100%       10ms  1.14%  regexp.(*Regexp).doExecute
+         0     0%   100%       10ms  1.14%  regexp.(*Regexp).doMatch (inline)
+         0     0%   100%       10ms  1.14%  regexp.(*Regexp).doOnePass
+         0     0%   100%       30ms  3.41%  regexp.Compile (inline)
+         0     0%   100%       30ms  3.41%  regexp.MustCompile
+         0     0%   100%       30ms  3.41%  regexp.compile
+         0     0%   100%       10ms  1.14%  regexp.newOnePassMachine (inline)
+         0     0%   100%       20ms  2.27%  regexp/syntax.Parse (inline)
+         0     0%   100%       20ms  2.27%  regexp/syntax.parse
+         0     0%   100%       10ms  1.14%  runtime.(*_panic).nextFrame
+         0     0%   100%       10ms  1.14%  runtime.(*_panic).nextFrame.func1
+         0     0%   100%       10ms  1.14%  runtime.(*_panic).start
+         0     0%   100%       30ms  3.41%  runtime.(*mcache).nextFree
+         0     0%   100%       10ms  1.14%  runtime.(*mcache).refill
+         0     0%   100%       10ms  1.14%  runtime.(*mcentral).uncacheSpan
+         0     0%   100%       20ms  2.27%  runtime.(*mspan).typePointersOfUnchecked
+         0     0%   100%       10ms  1.14%  runtime.(*spanSet).push
+         0     0%   100%       10ms  1.14%  runtime.(*spanSetBlockAlloc).alloc
+         0     0%   100%       30ms  3.41%  runtime.(*unwinder).init (inline)
+         0     0%   100%       40ms  4.55%  runtime.(*unwinder).initAt
+         0     0%   100%       30ms  3.41%  runtime.(*unwinder).next
+         0     0%   100%       20ms  2.27%  runtime.adjustframe
+         0     0%   100%       50ms  5.68%  runtime.callers
+         0     0%   100%       50ms  5.68%  runtime.callers.func1
+         0     0%   100%       40ms  4.55%  runtime.copystack
+         0     0%   100%       10ms  1.14%  runtime.deductAssistCredit
+         0     0%   100%       10ms  1.14%  runtime.entersyscall
+         0     0%   100%       10ms  1.14%  runtime.entersyscall_sysmon
+         0     0%   100%       10ms  1.14%  runtime.exitsyscall
+         0     0%   100%       20ms  2.27%  runtime.funcspdelta (inline)
+         0     0%   100%       10ms  1.14%  runtime.futexsleep
+         0     0%   100%       50ms  5.68%  runtime.futexwakeup
+         0     0%   100%       10ms  1.14%  runtime.gcAssistAlloc
+         0     0%   100%       10ms  1.14%  runtime.gcAssistAlloc.func2
+         0     0%   100%       10ms  1.14%  runtime.gcAssistAlloc1
+         0     0%   100%       60ms  6.82%  runtime.gcBgMarkWorker
+         0     0%   100%       60ms  6.82%  runtime.gcBgMarkWorker.func2
+         0     0%   100%       60ms  6.82%  runtime.gcDrain
+         0     0%   100%       60ms  6.82%  runtime.gcDrainMarkWorkerDedicated (inline)
+         0     0%   100%       10ms  1.14%  runtime.gcDrainN
+         0     0%   100%       10ms  1.14%  runtime.getitab
+         0     0%   100%       40ms  4.55%  runtime.gopanic
+         0     0%   100%       10ms  1.14%  runtime.gopreempt_m (inline)
+         0     0%   100%       10ms  1.14%  runtime.goschedImpl
+         0     0%   100%       30ms  3.41%  runtime.growslice
+         0     0%   100%       10ms  1.14%  runtime.heapSetTypeNoHeader (inline)
+         0     0%   100%       10ms  1.14%  runtime.mPark (inline)
+         0     0%   100%       60ms  6.82%  runtime.mProf_Malloc
+         0     0%   100%       10ms  1.14%  runtime.makemap_small
+         0     0%   100%       40ms  4.55%  runtime.makeslice
+         0     0%   100%       20ms  2.27%  runtime.makeslicecopy
+         0     0%   100%      180ms 20.45%  runtime.mallocgc
+         0     0%   100%       40ms  4.55%  runtime.mallocgcSmallNoscan
+         0     0%   100%       20ms  2.27%  runtime.mallocgcSmallScanHeader
+         0     0%   100%      100ms 11.36%  runtime.mallocgcSmallScanNoHeader
+         0     0%   100%       10ms  1.14%  runtime.mapIterStart
+         0     0%   100%       10ms  1.14%  runtime.mapaccess2_faststr
+         0     0%   100%       10ms  1.14%  runtime.mapassign_fast64
+         0     0%   100%       10ms  1.14%  runtime.mapassign_faststr
+         0     0%   100%       40ms  4.55%  runtime.markroot
+         0     0%   100%       40ms  4.55%  runtime.markroot.func1
+         0     0%   100%       90ms 10.23%  runtime.mcall
+         0     0%   100%       10ms  1.14%  runtime.morestack
+         0     0%   100%       20ms  2.27%  runtime.netpoll
+         0     0%   100%       20ms  2.27%  runtime.newarray
+         0     0%   100%       20ms  2.27%  runtime.newproc
+         0     0%   100%       20ms  2.27%  runtime.newproc.func1
+         0     0%   100%       50ms  5.68%  runtime.newstack
+         0     0%   100%       10ms  1.14%  runtime.notesleep
+         0     0%   100%       50ms  5.68%  runtime.notewakeup
+         0     0%   100%       90ms 10.23%  runtime.park_m
+         0     0%   100%       60ms  6.82%  runtime.profilealloc
+         0     0%   100%       10ms  1.14%  runtime.reentersyscall
+         0     0%   100%       20ms  2.27%  runtime.resetspinning
+         0     0%   100%       10ms  1.14%  runtime.scanframeworker
+         0     0%   100%       40ms  4.55%  runtime.scanstack
+         0     0%   100%      100ms 11.36%  runtime.schedule
+         0     0%   100%       20ms  2.27%  runtime.shrinkstack
+         0     0%   100%       20ms  2.27%  runtime.slicebytetostring
+         0     0%   100%       40ms  4.55%  runtime.startm
+         0     0%   100%       30ms  3.41%  runtime.stealWork
+         0     0%   100%       10ms  1.14%  runtime.stkbucket
+         0     0%   100%       10ms  1.14%  runtime.stopm
+         0     0%   100%      160ms 18.18%  runtime.systemstack
+         0     0%   100%       50ms  5.68%  runtime.tracebackPCs
+         0     0%   100%       10ms  1.14%  runtime.typeAssert
+         0     0%   100%       40ms  4.55%  runtime.wakep
+         0     0%   100%       20ms  2.27%  runtime/pprof.(*profileBuilder).addCPUData
+         0     0%   100%       40ms  4.55%  runtime/pprof.(*profileBuilder).readMapping
+         0     0%   100%       10ms  1.14%  runtime/pprof.elfBuildID
+         0     0%   100%       40ms  4.55%  runtime/pprof.newProfileBuilder
+         0     0%   100%       10ms  1.14%  runtime/pprof.parseProcSelfMaps
+         0     0%   100%       60ms  6.82%  runtime/pprof.profileWriter
+         0     0%   100%       10ms  1.14%  slices.Sort[go.shape.[]int,go.shape.int] (inline)
+         0     0%   100%       10ms  1.14%  slices.pdqsortOrdered[go.shape.int]
+         0     0%   100%       10ms  1.14%  sort.Ints
+         0     0%   100%       10ms  1.14%  strconv.AppendInt
+         0     0%   100%       20ms  2.27%  strconv.ParseFloat
+         0     0%   100%       20ms  2.27%  strconv.parseFloatPrefix
+         0     0%   100%       20ms  2.27%  strings.Split (inline)
+         0     0%   100%       20ms  2.27%  strings.genSplit
+         0     0%   100%       10ms  1.14%  sync.(*Cond).Wait
+         0     0%   100%       10ms  1.14%  sync.(*Pool).Get
+         0     0%   100%       10ms  1.14%  sync.(*Pool).pin
+         0     0%   100%       10ms  1.14%  sync.(*Pool).pinSlow
+         0     0%   100%       20ms  2.27%  syscall.BytePtrFromString (inline)
+         0     0%   100%       20ms  2.27%  syscall.ByteSliceFromString
+         0     0%   100%       10ms  1.14%  syscall.Close
+         0     0%   100%       20ms  2.27%  syscall.Open (inline)
+         0     0%   100%      140ms 15.91%  syscall.RawSyscall6
+         0     0%   100%       50ms  5.68%  syscall.Read (inline)
+         0     0%   100%      160ms 18.18%  syscall.Syscall
+         0     0%   100%      100ms 11.36%  syscall.Write (inline)
+         0     0%   100%       20ms  2.27%  syscall.openat
+         0     0%   100%       50ms  5.68%  syscall.read
+         0     0%   100%      100ms 11.36%  syscall.write
+         0     0%   100%       10ms  1.14%  time.Time.AppendFormat
+         0     0%   100%       10ms  1.14%  time.Time.appendFormat
