@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"car-service/db"
 	"car-service/graph"
 	"car-service/handlers"
+	"car-service/middleware"
 
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/handler"
@@ -26,22 +26,6 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func authMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		apiKey := r.Header.Get("X-API-Key")
-		expectedKey := os.Getenv("API_KEY")
-		if expectedKey == "" {
-			expectedKey = "secret-admin-key" // Fallback
-		}
-
-		if apiKey != expectedKey {
-			http.Error(w, "Forbidden", http.StatusForbidden)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
-
 func main() {
 	// Start pprof server on port 6060
 	go func() {
@@ -51,6 +35,11 @@ func main() {
 
 	_, _ = db.InitDB() // Initialize DB (Skeleton)
 
+	// Reset Database on Startup (As requested)
+	if err := db.ResetDB(); err != nil {
+		log.Printf("Warning: Failed to reset DB: %v", err)
+	}
+
 	r := mux.NewRouter()
 	r.Use(loggingMiddleware)
 
@@ -59,8 +48,8 @@ func main() {
 	r.HandleFunc("/cars/{id}", handlers.GetCar).Methods("GET")
 	r.HandleFunc("/cars/{id}", handlers.UpdateCar).Methods("PUT")
 
-	// Protect DELETE route
-	r.Handle("/cars/{id}", authMiddleware(http.HandlerFunc(handlers.DeleteCar))).Methods("DELETE")
+	// Protect DELETE route (Now handled by GraphQL or could be updated here if REST is still used)
+	r.HandleFunc("/cars/{id}", handlers.DeleteCar).Methods("DELETE")
 
 	// GraphQL Endpoint
 	schema, err := graph.InitSchema()
@@ -73,7 +62,7 @@ func main() {
 		Pretty:   true,
 		GraphiQL: true,
 	})
-	r.Handle("/graphql", h)
+	r.Handle("/graphql", middleware.AuthMiddleware(h))
 
 	fmt.Println("Server starting...")
 	log.Fatal(http.ListenAndServe(":8000", r))

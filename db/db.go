@@ -53,3 +53,20 @@ func InitDB() (*sql.DB, error) {
 	fmt.Println("Successfully connected to database with pooling enabled!")
 	return DB, nil
 }
+
+// ResetDB truncates all tables to ensure a clean state on startup
+func ResetDB() error {
+	log.Println("Reseting database...")
+
+	// Truncate tables in order of dependencies (child first or use CASCADE)
+	// verification_codes depends on users
+	query := `TRUNCATE TABLE verification_codes, users, cars RESTART IDENTITY CASCADE`
+
+	_, err := DB.Exec(query)
+	if err != nil {
+		return fmt.Errorf("failed to reset database: %v", err)
+	}
+
+	log.Println("Database reset successfully! All data cleared.")
+	return nil
+}

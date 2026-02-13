@@ -2,8 +2,13 @@ package graph
 
 import (
 	"car-service/db"
+	"car-service/middleware"
 	"car-service/models"
 	"car-service/utils"
+	"errors"
+	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/graphql-go/graphql"
 )
@@ -59,6 +64,85 @@ var RootMutation = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "RootMutation",
 		Fields: graphql.Fields{
+			// --- Auth Mutations ---
+			"requestLogin": &graphql.Field{
+				Type: graphql.String,
+				Args: graphql.FieldConfigArgument{
+					"email": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+				},
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					email, _ := p.Args["email"].(string)
+
+					// 1. Ensure user exists (Upsert)
+					var userID int
+					err := db.DB.QueryRow("INSERT INTO users (email) VALUES ($1) ON CONFLICT (email) DO UPDATE SET email=EXCLUDED.email RETURNING id", email).Scan(&userID)
+					if err != nil {
+						return nil, fmt.Errorf("database error: %v", err)
+					}
+
+					// 2. Generate 6-digit code
+					rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+					code := fmt.Sprintf("%06d", rng.Intn(1000000))
+
+					// 3. Save code to DB
+					expiry := time.Now().Add(15 * time.Minute)
+					_, err = db.DB.Exec("INSERT INTO verification_codes (user_id, code, expires_at) VALUES ($1, $2, $3)", userID, code, expiry)
+					if err != nil {
+						return nil, fmt.Errorf("failed to save code: %v", err)
+					}
+
+					// 4. Send Email
+					err = utils.SendOTP(email, code)
+					if err != nil {
+						return nil, fmt.Errorf("failed to send email: %v", err)
+					}
+
+					return "Verification code sent to email", nil
+				},
+			},
+			"verifyLogin": &graphql.Field{
+				Type: graphql.String, // Returns JWT Token
+				Args: graphql.FieldConfigArgument{
+					"email": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+					"code":  &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.String)},
+				},
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					email, _ := p.Args["email"].(string)
+					code, _ := p.Args["code"].(string)
+
+					// 1. Get User ID
+					var userID int
+					err := db.DB.QueryRow("SELECT id FROM users WHERE email=$1", email).Scan(&userID)
+					if err != nil {
+						return nil, errors.New("user not found")
+					}
+
+					// 2. Verify Code
+					var dbCode string
+					var expiresAt time.Time
+					err = db.DB.QueryRow("SELECT code, expires_at FROM verification_codes WHERE user_id=$1 AND code=$2 ORDER BY created_at DESC LIMIT 1", userID, code).Scan(&dbCode, &expiresAt)
+					if err != nil {
+						return nil, errors.New("invalid code")
+					}
+
+					if time.Now().After(expiresAt) {
+						return nil, errors.New("code expired")
+					}
+
+					// 3. Generate JWT
+					token, err := utils.GenerateToken(userID)
+					if err != nil {
+						return nil, fmt.Errorf("failed to generate token: %v", err)
+					}
+
+					// 4. Clean up used codes (optional)
+					_, _ = db.DB.Exec("DELETE FROM verification_codes WHERE user_id=$1", userID)
+
+					return token, nil
+				},
+			},
+
+			// --- Car Mutations (Protected) ---
 			"createCar": &graphql.Field{
 				Type: CarType,
 				Args: graphql.FieldConfigArgument{
@@ -70,6 +154,11 @@ var RootMutation = graphql.NewObject(
 					"mileage": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.Int)},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					// Auth Check
+					if p.Context.Value(middleware.UserIDKey) == nil {
+						return nil, errors.New("unauthorized")
+					}
+
 					make, _ := p.Args["make"].(string)
 					model, _ := p.Args["model"].(string)
 					year, _ := p.Args["year"].(int)
@@ -86,7 +175,6 @@ var RootMutation = graphql.NewObject(
 						Mileage: mileage,
 					}
 
-					// Validate
 					if err := utils.ValidateCar(car); err != nil {
 						return nil, err
 					}
@@ -113,20 +201,20 @@ var RootMutation = graphql.NewObject(
 					"mileage": &graphql.ArgumentConfig{Type: graphql.Int},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					id, _ := p.Args["id"].(int)
-					// Simple implementation: Fetch, Update, Save (or direct update)
-					// For simplicity in this demo, we'll try to update provided fields.
-					// Building a dynamic query is safer.
+					// Auth Check
+					if p.Context.Value(middleware.UserIDKey) == nil {
+						return nil, errors.New("unauthorized")
+					}
 
-					// 1. Check if exists
+					id, _ := p.Args["id"].(int)
+
 					var car models.Car
 					err := db.DB.QueryRow("SELECT id, make, model, year, price, color, mileage FROM cars WHERE id=$1", id).
 						Scan(&car.ID, &car.Make, &car.Model, &car.Year, &car.Price, &car.Color, &car.Mileage)
 					if err != nil {
-						return nil, err // Not found or DB error
+						return nil, err
 					}
 
-					// 2. Overwrite fields if provided
 					if val, ok := p.Args["make"].(string); ok {
 						car.Make = val
 					}
@@ -146,12 +234,10 @@ var RootMutation = graphql.NewObject(
 						car.Mileage = val
 					}
 
-					// 3. Validate
 					if err := utils.ValidateCar(car); err != nil {
 						return nil, err
 					}
 
-					// 4. Update
 					_, err = db.DB.Exec("UPDATE cars SET make=$1, model=$2, year=$3, price=$4, color=$5, mileage=$6 WHERE id=$7",
 						car.Make, car.Model, car.Year, car.Price, car.Color, car.Mileage, car.ID)
 					if err != nil {
@@ -167,6 +253,11 @@ var RootMutation = graphql.NewObject(
 					"id": &graphql.ArgumentConfig{Type: graphql.NewNonNull(graphql.Int)},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					// Auth Check
+					if p.Context.Value(middleware.UserIDKey) == nil {
+						return false, errors.New("unauthorized")
+					}
+
 					id, _ := p.Args["id"].(int)
 					res, err := db.DB.Exec("DELETE FROM cars WHERE id=$1", id)
 					if err != nil {
