@@ -10,7 +10,7 @@ A production-ready RESTful and GraphQL Microservice built with Golang, PostgreSQ
 *   **GraphQL API**: Endpoint to query car data flexibly.
 *   **Security**:
     *   **Environment Variables**: Secrets management using `godotenv`.
-    *   **Authentication**: API Key protection for sensitive endpoints (`DELETE`).
+    *   **Authentication**: **Email OTP** & **JWT** for GraphQL. (Legacy API Key for REST).
 *   **Validation**: Input validation rules (e.g., Price > 0, Year > 1886).
 *   **Observability**: Request logging middleware.
 *   **Containerization**: Multi-stage Docker build and Docker Compose orchestration.
@@ -69,11 +69,42 @@ docker-compose exec db psql -U postgres -d Cars -f /tmp/schema.sql
 
 You can import these details into Postman to test the service.
 
-### 🔐 Authentication
-**Headers**:
-*   `X-API-Key`: `Infobell` (as set in your `.docker-compose.yml` / `.env`)
+### 🔐 Authentication (GraphQL)
+
+The GraphQL API is secured using **Email OTP** (One-Time Password) and **JWT** (JSON Web Tokens).
+
+**Flow:**
+1.  **Request Login**: User submits email -> Server sends 6-digit code.
+2.  **Verify Login**: User submits email + code -> Server returns **JWT Token**.
+3.  **Access Protected Routes**: User sends `Authorization: Bearer <TOKEN>` header.
+
+#### 1. Request Login Code
+```graphql
+mutation {
+  requestLogin(email: "your-email@example.com")
+}
+```
+*Result: Check your email for the code.*
+
+#### 2. Verify Code & Get Token
+```graphql
+mutation {
+  verifyLogin(email: "your-email@example.com", code: "123456")
+}
+```
+*Result: Returns a JWT String (e.g., `eyJhz...`). This token is valid for **15 minutes**.*
+
+#### 3. Access Protected Data
+To use mutations like `createCar`, `updateCar`, or `deleteCar`, you **must** add the header:
+*   **Header**: `Authorization`
+*   **Value**: `Bearer <YOUR_JWT_TOKEN>`
 
 ---
+
+### 🔑 Authentication (Legacy REST)
+**Headers**:
+*   `X-API-Key`: `Infobell` (Only for the REST `DELETE` endpoint)
+
 
 ## GraphQL API Examples
 

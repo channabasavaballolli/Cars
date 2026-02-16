@@ -26,27 +26,35 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		bearerToken := strings.Split(authHeader, " ")
 		if len(bearerToken) != 2 {
-			http.Error(w, "Invalid Authorization header format", http.StatusUnauthorized)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"errors": [{"message": "Invalid Authorization header format"}]}`))
 			return
 		}
 
 		tokenString := bearerToken[1]
 		token, err := utils.ValidateToken(tokenString)
 		if err != nil || !token.Valid {
-			http.Error(w, "Invalid or expired token", http.StatusUnauthorized)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"errors": [{"message": "Invalid or expired token"}]}`))
 			return
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
-			http.Error(w, "Invalid token claims", http.StatusUnauthorized)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"errors": [{"message": "Invalid token claims"}]}`))
 			return
 		}
 
 		// Extract user_id safely
 		userIDFloat, ok := claims["user_id"].(float64)
 		if !ok {
-			http.Error(w, "Invalid user ID in token", http.StatusUnauthorized)
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte(`{"errors": [{"message": "Invalid user ID in token"}]}`))
 			return
 		}
 		userID := int(userIDFloat)
