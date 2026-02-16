@@ -36,9 +36,9 @@ func main() {
 	_, _ = db.InitDB() // Initialize DB (Skeleton)
 
 	// Reset Database on Startup (As requested)
-	if err := db.ResetDB(); err != nil {
-		log.Printf("Warning: Failed to reset DB: %v", err)
-	}
+	// if err := db.ResetDB(); err != nil {
+	// 	log.Printf("Warning: Failed to reset DB: %v", err)
+	// }
 
 	r := mux.NewRouter()
 	r.Use(loggingMiddleware)
