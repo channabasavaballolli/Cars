@@ -51,6 +51,20 @@ func InitDB() (*sql.DB, error) {
 	}
 
 	fmt.Println("Successfully connected to database with pooling enabled!")
+
+	// Run Migrations
+	migration, err := os.ReadFile("db/migrations.sql")
+	if err != nil {
+		log.Printf("Warning: Could not read migrations.sql: %v", err)
+	} else {
+		_, err = DB.Exec(string(migration))
+		if err != nil {
+			log.Printf("Warning: Failed to execute migrations: %v", err)
+		} else {
+			fmt.Println("Migrations executed successfully!")
+		}
+	}
+
 	return DB, nil
 }
 

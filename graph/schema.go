@@ -73,12 +73,15 @@ var RootMutation = graphql.NewObject(
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					email, _ := p.Args["email"].(string)
 
-					// 1. Ensure user exists (Upsert)
+					// 1. Ensure user exists (Upsert) - Default role is 'user' via DB default
 					var userID int
+					fmt.Printf("Attempting to login/register email: %s\n", email)
 					err := db.DB.QueryRow("INSERT INTO users (email) VALUES ($1) ON CONFLICT (email) DO UPDATE SET email=EXCLUDED.email RETURNING id", email).Scan(&userID)
 					if err != nil {
+						fmt.Printf("Database error during user upsert: %v\n", err)
 						return nil, fmt.Errorf("database error: %v", err)
 					}
+					fmt.Printf("User ID for %s is %d\n", email, userID)
 
 					// 2. Generate 6-digit code
 					rng := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -110,9 +113,10 @@ var RootMutation = graphql.NewObject(
 					email, _ := p.Args["email"].(string)
 					code, _ := p.Args["code"].(string)
 
-					// 1. Get User ID
+					// 1. Get User ID and Role
 					var userID int
-					err := db.DB.QueryRow("SELECT id FROM users WHERE email=$1", email).Scan(&userID)
+					var role string
+					err := db.DB.QueryRow("SELECT id, role FROM users WHERE email=$1", email).Scan(&userID, &role)
 					if err != nil {
 						return nil, errors.New("user not found")
 					}
@@ -129,8 +133,8 @@ var RootMutation = graphql.NewObject(
 						return nil, errors.New("code expired")
 					}
 
-					// 3. Generate JWT
-					token, err := utils.GenerateToken(userID)
+					// 3. Generate JWT with Role
+					token, err := utils.GenerateToken(userID, role)
 					if err != nil {
 						return nil, fmt.Errorf("failed to generate token: %v", err)
 					}
@@ -157,6 +161,10 @@ var RootMutation = graphql.NewObject(
 					// Auth Check
 					if p.Context.Value(middleware.UserIDKey) == nil {
 						return nil, errors.New("unauthorized")
+					}
+					// RBAC Check
+					if p.Context.Value(middleware.RoleKey) != "admin" {
+						return nil, errors.New("forbidden: admins only")
 					}
 
 					make, _ := p.Args["make"].(string)
@@ -204,6 +212,10 @@ var RootMutation = graphql.NewObject(
 					// Auth Check
 					if p.Context.Value(middleware.UserIDKey) == nil {
 						return nil, errors.New("unauthorized")
+					}
+					// RBAC Check
+					if p.Context.Value(middleware.RoleKey) != "admin" {
+						return nil, errors.New("forbidden: admins only")
 					}
 
 					id, _ := p.Args["id"].(int)
@@ -256,6 +268,10 @@ var RootMutation = graphql.NewObject(
 					// Auth Check
 					if p.Context.Value(middleware.UserIDKey) == nil {
 						return false, errors.New("unauthorized")
+					}
+					// RBAC Check
+					if p.Context.Value(middleware.RoleKey) != "admin" {
+						return false, errors.New("forbidden: admins only")
 					}
 
 					id, _ := p.Args["id"].(int)

@@ -13,6 +13,7 @@ import (
 type contextKey string
 
 const UserIDKey = contextKey("userID")
+const RoleKey = contextKey("role")
 
 // AuthMiddleware validates the JWT token in the Authorization header
 func AuthMiddleware(next http.Handler) http.Handler {
@@ -59,8 +60,15 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 		userID := int(userIDFloat)
 
-		// Add userID to context
+		// Extract role safely
+		role, ok := claims["role"].(string)
+		if !ok {
+			role = "user" // Default fallback
+		}
+
+		// Add userID and role to context
 		ctx := context.WithValue(r.Context(), UserIDKey, userID)
+		ctx = context.WithValue(ctx, RoleKey, role)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

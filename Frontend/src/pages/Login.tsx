@@ -64,7 +64,7 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 mb-4">
             <Car className="h-7 w-7 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold text-foreground">Admin Access</h2>
+          <h2 className="text-2xl font-bold text-foreground">User Access</h2>
           <p className="text-sm text-muted-foreground mt-1">
             {step === 1 ? "Enter your email to receive a login code" : "Enter the 6-digit code from your console"}
           </p>
