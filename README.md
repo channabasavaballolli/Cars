@@ -69,14 +69,30 @@ docker-compose exec db psql -U postgres -d Cars -f /tmp/schema.sql
 
 You can import these details into Postman to test the service.
 
-### 🔐 Authentication (GraphQL)
+### 🔐 Authentication & RBAC
 
-The GraphQL API is secured using **Email OTP** (One-Time Password) and **JWT** (JSON Web Tokens).
+The system uses **Role-Based Access Control (RBAC)**:
+
+| Role | Access Level | Login URL |
+| :--- | :--- | :--- |
+| **User** (Default) | **Read-Only**: Can view the dashboard but cannot modify data. | `/login` |
+| **Admin** | **Full Access**: Can Create, Update, and Delete cars. | `/admin-login` |
 
 **Flow:**
 1.  **Request Login**: User submits email -> Server sends 6-digit code.
 2.  **Verify Login**: User submits email + code -> Server returns **JWT Token**.
 3.  **Access Protected Routes**: User sends `Authorization: Bearer <TOKEN>` header.
+
+#### How to Promote a User to Admin
+By default, all new users are `user`. To make someone an admin:
+
+1.  Ensure the user has logged in at least once.
+2.  Stop the server (if running).
+3.  Run the helper script:
+    ```powershell
+    go run scripts/make_admin.go <user-email>
+    ```
+4.  Restart the server.
 
 #### 1. Request Login Code
 ```graphql
@@ -92,12 +108,12 @@ mutation {
   verifyLogin(email: "your-email@example.com", code: "123456")
 }
 ```
-*Result: Returns a JWT String (e.g., `eyJhz...`). This token is valid for **15 minutes**.*
+*Result: Returns a JWT String.*
 
-#### 3. Access Protected Data
-To use mutations like `createCar`, `updateCar`, or `deleteCar`, you **must** add the header:
-*   **Header**: `Authorization`
-*   **Value**: `Bearer <YOUR_JWT_TOKEN>`
+#### 3. Access Protected Data (Admin Only)
+To use mutations like `createCar`, `updateCar`, or `deleteCar`:
+*   You must be an **Admin**.
+*   Add Header: `Authorization: Bearer <YOUR_JWT_TOKEN>`.
 
 ---
 

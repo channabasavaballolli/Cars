@@ -16,11 +16,12 @@ func init() {
 	}
 }
 
-// GenerateToken creates a new JWT for the user ID
-func GenerateToken(userID int) (string, error) {
+// GenerateToken creates a new JWT for the user ID and role
+func GenerateToken(userID int, role string) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
-		"exp":     time.Now().Add(time.Minute * 5).Unix(), // 5 minutes expiration (Session)
+		"role":    role,
+		"exp":     time.Now().Add(time.Minute * 15).Unix(), // 15 minutes expiration
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

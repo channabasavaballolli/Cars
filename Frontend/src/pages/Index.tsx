@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { graphqlRequest, CARS_QUERY } from "@/lib/graphql";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -74,17 +75,21 @@ function CarCard({ car, index, onClick }: { car: CarData; index: number; onClick
 }
 
 export default function Index() {
+  const { isAuthenticated } = useAuth();
   const [cars, setCars] = useState<CarData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCar, setSelectedCar] = useState<CarData | null>(null);
 
   useEffect(() => {
-    graphqlRequest<{ cars: CarData[] }>(CARS_QUERY)
-      .then((data) => setCars(data.cars))
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, []);
+    if (isAuthenticated) {
+      setLoading(true);
+      graphqlRequest<{ cars: CarData[] }>(CARS_QUERY)
+        .then((data) => setCars(data.cars))
+        .catch((e) => setError(e.message))
+        .finally(() => setLoading(false));
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen gradient-hero">
@@ -110,7 +115,24 @@ export default function Index() {
       {/* Grid */}
       <section className="pb-24 px-4">
         <div className="container mx-auto">
-          {loading ? (
+          {!isAuthenticated ? (
+            <div className="text-center py-20 bg-secondary/20 rounded-2xl border border-white/10 backdrop-blur-sm">
+              <Car className="h-16 w-16 mx-auto text-primary mb-6 opacity-80" />
+              <h2 className="text-2xl font-bold text-white mb-4">Exclusive Inventory</h2>
+              <p className="text-muted-foreground max-w-md mx-auto mb-8">
+                Our premium collection is available exclusively to registered members.
+                Please login to view our available vehicles.
+              </p>
+              <div className="flex justify-center gap-4">
+                <a href="/login" className="px-6 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors">
+                  Member Login
+                </a>
+                <a href="/admin-login" className="px-6 py-2 bg-secondary text-secondary-foreground font-semibold rounded-lg hover:bg-secondary/80 transition-colors">
+                  Admin Portal
+                </a>
+              </div>
+            </div>
+          ) : loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {Array.from({ length: 8 }).map((_, i) => (
                 <Skeleton key={i} className="h-48 rounded-xl" />

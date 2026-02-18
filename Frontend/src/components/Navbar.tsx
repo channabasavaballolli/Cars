@@ -37,9 +37,14 @@ export default function Navbar() {
               </Button>
             </>
           ) : (
-            <Button size="sm" asChild>
-              <Link to="/login">Admin Login</Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/admin-login" className="text-gray-400 hover:text-white">Admin Portal</Link>
+              </Button>
+              <Button size="sm" asChild className="bg-primary hover:bg-primary/90">
+                <Link to="/login">User Login</Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>
